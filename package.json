@@ -1,0 +1,16 @@
+{
+  "name": "mb-automation",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.x.x",
+    "typescript": "^5.x.x",
+    "ts-node": "^10.x.x",
+    "dotenv": "^16.x.x"
+  }
+}

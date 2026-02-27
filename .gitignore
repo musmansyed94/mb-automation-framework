@@ -1,0 +1,28 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Playwright specific outputs
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Debugging and Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Environment variables (Security)
+.env
+.env.local
+
+# Optional: TypeScript build output (if you use 'npm run build')
+dist/
+out/

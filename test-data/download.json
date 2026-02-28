@@ -1,0 +1,9 @@
+{
+  "selector": "a[data-button-type=\"download\"]",
+  "expectedDomains": [
+    "go.link",
+    "apple.com",
+    "google.com",
+    "play.google.com"
+  ]
+}

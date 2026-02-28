@@ -1,29 +1,77 @@
-import { defineConfig, devices } from '@playwright/test';
+﻿import { defineConfig, devices } from '@playwright/test';
+import { appConfig } from './config/app.config';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 60000,
-  retries: 2,
+
+  // Global test timeout (per test)
+  timeout: 45_000,
+
+  // Parallel execution for speed
+  fullyParallel: true,
+
+  // Retries for stability (more in CI)
+  retries: process.env.CI ? 2 : 1,
+
+  // Workers (more in CI, fewer locally)
+  workers: process.env.CI ? 4 : 2,
+
+  // Reporting
+  reporter: [
+    ['html', { open: 'never', outputFolder: 'playwright-report' }],
+    ['line'],
+    ['junit', { outputFile: 'results.xml' }] // CI-friendly
+  ],
+
   use: {
-    baseURL: 'https://mb.io/en-AE',
-    headless: true,
+    // Base URL from config
+    baseURL: appConfig.baseUrl,
+
+    // Stability tools
+    trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    trace: 'on-first-retry',
+
+    // Disable browser notifications
+    launchOptions: {
+      args: ['--disable-notifications']
+    },
+
+    // Consistent viewport
+    viewport: { width: 1440, height: 900 },
+
+    // Timeouts
+    navigationTimeout: 30000,
+    actionTimeout: 15000,
+
+    // Web-first assertion timeout
+    expect: {
+      timeout: 10000
+    },
+
+    // Test isolation
+    ignoreHTTPSErrors: true,
+
+    // Optional: consistent testId usage
+    testIdAttribute: 'data-testid'
   },
 
+  // Cross-browser matrix
   projects: [
     {
-      name: 'Chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] }
     },
     {
-      name: 'Firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] }
     },
     {
-      name: 'WebKit',
-      use: { ...devices['Desktop Safari'] },
-    },
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] }
+    }
   ],
+
+  // Where to store traces, screenshots, videos
+  outputDir: 'test-results/'
 });

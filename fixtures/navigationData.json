@@ -1,10 +1,25 @@
 {
-  "expectedNavItems": [
-    "Explore",
-    "Features",
-    "Company",
-    "$MBG",
-    "Sign in",
-    "Sign up"
-  ]
+  "baseUrl": "https://mb.io/en-AE",
+  "navItems": ["Explore", "Features", "Company", "Sign in", "Sign up"],
+  "navMap": {
+    "Explore": "explore",
+    "Features": "features",
+    "Company": "company"
+  },
+  "trading": {
+    "categories": ["USDT", "BTC", "ETH"],
+    "headers": ["Name", "Last Price", "24h Change"]
+  },
+  "footer": {
+    "appStore": "apple.com",
+    "googlePlay": "play.google.com"
+  },
+  "whyMultiLink": {
+    "path": "company/why-multibank-io",
+    "expectedContent": [
+      "Why MultiBank.io",
+      "The MultiBank Group Advantage",
+      "Advanced Technology"
+    ]
+  }
 }

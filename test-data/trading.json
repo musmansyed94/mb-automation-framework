@@ -1,0 +1,9 @@
+{
+  "categories": ["Hot", "Gainers", "Losers"],
+  "assets": ["BTC", "ETH", "SOL", "XRP"],
+  "tableStructure": {
+    "pairCell": "displayName-td",
+    "priceCell": "price-td",
+    "chartCell": "week-chart-td"
+  }
+}

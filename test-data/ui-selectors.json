@@ -1,0 +1,5 @@
+{
+  "header": "header",
+  "marketingBanner": "section [class*=\"items-center\"][class*=\"text-center\"]",
+  "downloadButton": "a[data-button-type=\"download\"]"
+}

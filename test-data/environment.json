@@ -1,0 +1,8 @@
+{
+  "baseUrl": "https://mb.io/en-AE",
+  "popupSelectors": [
+    "#moe-push-div",
+    ".moe-main-class",
+    "#onetrust-consent-sdk"
+  ]
+}

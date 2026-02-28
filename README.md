@@ -32,34 +32,35 @@ The solution demonstrates:
 
 ## Project Structure
 
-mb-automation-framework/
-│
-├── .github/
-│   └── workflows/
-│       └── playwright.yml         # CI / GitHub Actions pipeline
-│
-├── config/
-│   └── app.config.ts              # Selectors, environment config
-│
-├── fixtures/                      # Optional test fixtures
-│
-├── pages/
-│   ├── AboutUsPage.ts
-│   ├── HomePage.ts
-│   └── SpotTradingPage.ts
-│
-├── test-data/
-│   ├── company.json
-│   ├── navigation.json
-│   └── trading.json
-│
-├── tests/
-│   └── navigation-trading.spec.ts
-│
-├── playwright.config.ts           # Test configuration
-├── tsconfig.json
-├── package.json
-└── README.md                     # You are here
+    mb-automation-framework/
+    │
+    ├── .github/
+    │   └── workflows/
+    │       └── playwright.yml
+    │
+    ├── config/
+    │   └── app.config.ts
+    │
+    ├── fixtures/
+    │
+    ├── pages/
+    │   ├── AboutUsPage.ts
+    │   ├── HomePage.ts
+    │   └── SpotTradingPage.ts
+    │
+    ├── test-data/
+    │   ├── company.json
+    │   ├── navigation.json
+    │   └── trading.json
+    │
+    ├── tests/
+    │   └── navigation-trading.spec.ts
+    │
+    ├── playwright.config.ts
+    ├── tsconfig.json
+    ├── package.json
+    └── README.md
+
 
 This structure separates concerns cleanly:
 - Pages contain UI logic

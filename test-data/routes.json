@@ -1,8 +1,8 @@
 {
-  "Home": "/en-AE",
-  "Company": "/en-AE/company",
-  "About Us": "/en-AE/company",
-  "Explore": "/en-AE/explore",
-  "Trading": "/en-AE/trading",
+  "Home": "/en(-AE)?$",
+  "Company": "/en(-AE)?/company",
+  "About Us": "/en(-AE)?/company",
+  "Explore": "/en(-AE)?/explore",
+  "Trading": "/en(-AE)?/trading",
   "Sign up": "/register"
 }

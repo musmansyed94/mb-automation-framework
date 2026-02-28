@@ -24,15 +24,17 @@ export class HomePage {
   }
 
   async clickNavigationItem(itemName: string) {
-    const navItem = this.page
-      .locator(appConfig.selectors.header)
-      .getByRole('link', { name: new RegExp(itemName, 'i') })
-      .filter({ visible: true })
-      .first();
+  const navItem = this.page
+    .locator(appConfig.selectors.header)
+    .getByRole('link', { name: new RegExp(itemName, 'i') })
+    .filter({ visible: true })
+    .first();
 
-    await expect(navItem).toBeVisible({ timeout: 10000 });
-    await navItem.click();
-  }
+  await expect(navItem).toBeVisible({ timeout: 10000 });
+  await navItem.click();
+
+  await this.page.waitForLoadState('domcontentloaded');
+}
 
   async handleSignUpClick(): Promise<Page> {
     const context = this.page.context();
@@ -56,8 +58,9 @@ export class HomePage {
   }
 
   async verifyUrl(targetPage: Page, pattern: string) {
-    await expect(targetPage).toHaveURL(new RegExp(pattern, 'i'), { timeout: 20000 });
-  }
+  const regex = new RegExp(pattern, 'i');
+  await expect(targetPage).toHaveURL(regex, { timeout: 20000 });
+}
 
   async validateMarketingBanner() {
     const banner = this.page.locator(appConfig.selectors.marketingBanner).last();

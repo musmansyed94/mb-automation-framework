@@ -14,7 +14,13 @@ test.describe('Navigation & Trading Tests - MB.IO', () => {
   let spotPage: SpotTradingPage;
   let aboutPage: AboutUsPage;
 
-  test.beforeEach(async ({ page }) => {
+  // ---------------------------------------------------------
+  // BEFORE EACH (with Sign‑Up test excluded)
+  // ---------------------------------------------------------
+  test.beforeEach(async ({ page }, testInfo) => {
+    // Skip open() for Sign Up test to avoid header check on trade.mb.io
+    if (testInfo.title.includes('Sign up')) return;
+
     homePage = new HomePage(page);
     spotPage = new SpotTradingPage(page);
     aboutPage = new AboutUsPage(page);
@@ -25,7 +31,8 @@ test.describe('Navigation & Trading Tests - MB.IO', () => {
   // ---------------------------------------------------------
   // TOP NAVIGATION VALIDATION
   // ---------------------------------------------------------
-  test('Top navigation displays all expected options', async () => {
+  test('Top navigation displays all expected options', async ({ page }) => {
+    homePage = new HomePage(page);
     const navItems = await homePage.getTopNavigationItems();
 
     for (const item of navigationData.topNavigation) {
@@ -41,27 +48,26 @@ test.describe('Navigation & Trading Tests - MB.IO', () => {
   // TRADING PAGE VALIDATION
   // ---------------------------------------------------------
   test('Spot Trading - Categories, Structure, and Data Validation', async ({ page }) => {
-  await homePage.clickNavigationItem('Explore');
+    await homePage.clickNavigationItem('Explore');
 
-  // Correct expectation using routes.json
-  await expect(page).toHaveURL(new RegExp(routes["Explore"], 'i'));
+    // Region-agnostic URL validation
+    await expect(page).toHaveURL(new RegExp(routes["Explore"], 'i'));
 
-  await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('networkidle');
 
-  await spotPage.validateTradingTableStructure();
-  await spotPage.verifyRowsExist();
-
-  for (const asset of tradingData.assets) {
-    await spotPage.verifyAssetExists(asset);
-  }
-
-  for (const category of tradingData.categories) {
-    await spotPage.selectCategory(category);
     await spotPage.validateTradingTableStructure();
     await spotPage.verifyRowsExist();
-  }
-});
 
+    for (const asset of tradingData.assets) {
+      await spotPage.verifyAssetExists(asset);
+    }
+
+    for (const category of tradingData.categories) {
+      await spotPage.selectCategory(category);
+      await spotPage.validateTradingTableStructure();
+      await spotPage.verifyRowsExist();
+    }
+  });
 
   // ---------------------------------------------------------
   // HOME PAGE CONTENT VALIDATION
@@ -77,26 +83,30 @@ test.describe('Navigation & Trading Tests - MB.IO', () => {
   test('About Us → Company page renders all expected components', async ({ page }) => {
     await homePage.clickNavigationItem('Company');
 
-    // Use routes.json
+    // Region-agnostic URL validation
     await expect(page).toHaveURL(new RegExp(routes["Company"], 'i'));
 
     await aboutPage.validateCompanyPageStructure();
   });
 
   // ---------------------------------------------------------
-  // SIGN UP FLOW VALIDATION
+  // SIGN UP FLOW VALIDATION (no beforeEach)
   // ---------------------------------------------------------
-  test('Sign up button navigates to registration portal', async () => {
-  const targetPage = await homePage.handleSignUpClick();
+  test('Sign up button navigates to registration portal', async ({ page }) => {
+    // Manually initialize HomePage because beforeEach is skipped
+    homePage = new HomePage(page);
+    await homePage.open();
 
-  // Data-driven URL validation
-  await homePage.verifyUrl(targetPage, routes["Sign up"]);
+    const targetPage = await homePage.handleSignUpClick();
 
-  const signUpIndicator = targetPage.locator(
-    'input[type="email"], h1, h2'
-  );
+    // Region-agnostic + redirect-safe URL validation
+    await homePage.verifyUrl(targetPage, routes["Sign up"]);
 
-  await expect(signUpIndicator.first()).toBeVisible();
-});
+    const signUpIndicator = targetPage.locator(
+      'input[type="email"], h1, h2'
+    );
+
+    await expect(signUpIndicator.first()).toBeVisible();
+  });
 
 });

@@ -20,39 +20,29 @@ export default defineConfig({
   reporter: [
     ['html', { open: 'never', outputFolder: 'playwright-report' }],
     ['line'],
-    ['junit', { outputFile: 'results.xml' }] // CI-friendly
+    ['junit', { outputFile: 'results.xml' }]
   ],
 
   use: {
-    // Base URL from config
     baseURL: appConfig.baseUrl,
 
-    // Stability tools
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
 
-    // Disable browser notifications
-    launchOptions: {
-      args: ['--disable-notifications']
-    },
+    // Default launch options (Chromium & Firefox override below)
+    launchOptions: {},
 
-    // Consistent viewport
     viewport: { width: 1440, height: 900 },
 
-    // Timeouts
     navigationTimeout: 30000,
     actionTimeout: 15000,
 
-    // Web-first assertion timeout
     expect: {
       timeout: 10000
     },
 
-    // Test isolation
     ignoreHTTPSErrors: true,
-
-    // Optional: consistent testId usage
     testIdAttribute: 'data-testid'
   },
 
@@ -60,18 +50,29 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: {
+          args: ['--disable-notifications']   // Supported
+        }
+      }
     },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] }
+      use: {
+        ...devices['Desktop Firefox'],
+        launchOptions: {
+          args: ['--disable-notifications']   // Supported
+        }
+      }
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] }
+      use: {
+        ...devices['Desktop Safari']
+      }
     }
   ],
 
-  // Where to store traces, screenshots, videos
   outputDir: 'test-results/'
 });

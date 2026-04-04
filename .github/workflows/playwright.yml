@@ -1,10 +1,11 @@
-﻿name: Playwright Tests - MB.IO
+name: Playwright Tests - MB.IO
 
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:   # <-- Allows manual run from GitHub UI
 
 jobs:
   test:
